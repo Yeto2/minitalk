@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 05:20:53 by yessemna          #+#    #+#             */
-/*   Updated: 2024/03/02 17:22:00 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:32:06 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,18 @@ int main(int argc, char *argv[])
     if (argc > 1)
     {
         pid = atoi(argv[1]);
-        // if(kill(pid, 0) == -1)
-        // {
-        //     printf("Error: Invalid PID\n");
-        //     return 1;
-        // }
         i = 0;
         while (argv[2][i])
         {
             c = argv[2][i];
-            j = 0;
-            while (j < 8)
+            j = 7;
+            while (j >= 0)
             {
-                if (c & 1)
-                    kill(pid, SIGUSR1);
-                else
+                if (((c >> j) & 1) == 0)
                     kill(pid, SIGUSR2);
-                printf("c = %d\n", c & 1);
-                c = c >> 1;
-                j++;
+                else
+                    kill(pid, SIGUSR1);
+                j--;
                 usleep(500);
             }
             i++;

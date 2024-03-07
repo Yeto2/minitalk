@@ -6,7 +6,7 @@
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 05:20:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/03/02 17:21:49 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:30:40 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,36 @@
 #include <stdlib.h>
 #include <signal.h>
 
-
+void put_str(char c)
+{
+    write(1,&c,1);
+}
 static void handle_msg(int sig, siginfo_t *info, void *unused)
 {
-    static unsigned char c = 0;
-    static int i = 0;
+    static int i;
+    static int sum;
     static int cur_PID;
+    int arr[]={128,64,32,16,8,4,2,1};
 
     if (cur_PID == 0)
         cur_PID = info->si_pid;
     else if(cur_PID != info->si_pid)
     {
-        c = 0;
+        sum = 0;
         i = 0;
         cur_PID = info->si_pid;
     }
-    
-    if (sig == SIGUSR1)
-        c = c | (1 << 7);
+    if(sig == 30)
+        sum+= arr[i];
     i++;
     if (i == 8)
     {
-        if (c == 0)
+        if (sum == 0)
             write(1, "\n", 1);
         else
-            write(1, &c, 1);
+            put_str(sum);
         i = 0;
-        c = 0;
+        sum = 0;
     }
 }
 
