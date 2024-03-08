@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 21:56:01 by yessemna          #+#    #+#              #
-#    Updated: 2024/02/11 05:27:12 by yessemna         ###   ########.fr        #
+#    Updated: 2024/03/08 23:38:19 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,22 @@ NAME_SBONUS = server_bonus
 NAME_CBONUS = client_bonus
 
 # COMM_SRC = ft_printf.c ft_printf_utils.c ft_atoi.c
-SRC_S = server.c 
-SRC_C = client.c 
+SRC_S = Mandatory/server.c \
+						utils/ft_atoi.c \
+						utils/ft_putstr_fd.c \
+						utils/ft_putchar_fd.c \
+						utils/ft_putnbr_fd.c \
+						utils/ft_putendl_fd.c \
+						utils/ft_isdigit.c
+						
+SRC_C = Mandatory/client.c \
+						utils/ft_atoi.c \
+						utils/ft_putstr_fd.c \
+						utils/ft_putchar_fd.c \
+						utils/ft_putnbr_fd.c \
+						utils/ft_putendl_fd.c \
+						utils/ft_isdigit.c
+						
 SRC_SB = server_bonus.c 
 SRC_CB = client_bonus.c 
 
@@ -31,9 +45,9 @@ OBJ_C = $(SRC_C:.c=.o)
 OBJ_SB = $(SRC_SB:.c=.o)
 OBJ_CB = $(SRC_CB:.c=.o)
 
-%.o: %.c minitalk.h
+Mandatory/%.o: Mandatory/%.c minitalk.h
 	@ $(CC) $(FLAGS) -o $@ -c $<
-	
+
 all: client server
 
 server: $(OBJ_S)
