@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 05:20:48 by yessemna          #+#    #+#             */
-/*   Updated: 2024/03/09 16:33:00 by yessemna         ###   ########.fr       */
+/*   Updated: 2024/03/09 19:32:49 by yessemna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@ void put_str(char c)
 {
     write(1,&c,1);
 }
+
+// int check_bytes(int sum)
+// {
+//     int j = 7;
+//     int x = 0;
+//     while (j >= 0)
+//     {
+//         if (((sum >> j) & 1) == 0)
+//         {
+            
+//             return x;
+//         }
+//         else
+//             x++;
+//         j--;
+//     }
+//     return x;
+// }
+
 static void handle_msg(int sig, siginfo_t *info, void *unused)
 {
     (void)unused;
@@ -23,6 +42,7 @@ static void handle_msg(int sig, siginfo_t *info, void *unused)
     static int sum;
     static int cur_PID;
     int arr[]={128,64,32,16,8,4,2,1};
+    // static int count_bits = 0;
 
     if (cur_PID == 0)
         cur_PID = info->si_pid;
@@ -32,20 +52,23 @@ static void handle_msg(int sig, siginfo_t *info, void *unused)
         i = 0;
         cur_PID = info->si_pid;
     }
+    
     if(sig == 30)
         sum+= arr[i];
     i++;
     if (i == 8)
     {
+        // check_bytes(sum);
         if (sum == 0)
-            write(1, "\n", 1); // 11000000 11100000
-        else
-            put_str(sum);
+            write(1, "\n", 1);
+        put_str(sum);
         i = 0;
         sum = 0;
     }
 }
 
+//10110000 00000000 00000000 00000000
+// int s[4]={11110000, 00000000, 00000000, 00000000};
 int main()
 {
     struct sigaction sa;

@@ -6,7 +6,7 @@
 #    By: yessemna <yessemna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 21:56:01 by yessemna          #+#    #+#              #
-#    Updated: 2024/03/08 23:38:19 by yessemna         ###   ########.fr        #
+#    Updated: 2024/03/09 17:45:47 by yessemna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ NAME_C = client
 NAME_SBONUS = server_bonus
 NAME_CBONUS = client_bonus
 
-# COMM_SRC = ft_printf.c ft_printf_utils.c ft_atoi.c
 SRC_S = Mandatory/server.c \
 						utils/ft_atoi.c \
 						utils/ft_putstr_fd.c \
@@ -36,8 +35,20 @@ SRC_C = Mandatory/client.c \
 						utils/ft_putendl_fd.c \
 						utils/ft_isdigit.c
 						
-SRC_SB = server_bonus.c 
-SRC_CB = client_bonus.c 
+SRC_SB = Bonus/server_bonus.c \
+						utils/ft_atoi.c \
+						utils/ft_putstr_fd.c \
+						utils/ft_putchar_fd.c \
+						utils/ft_putnbr_fd.c \
+						utils/ft_putendl_fd.c \
+						utils/ft_isdigit.c
+SRC_CB = Bonus/client_bonus.c \
+						utils/ft_atoi.c \
+						utils/ft_putstr_fd.c \
+						utils/ft_putchar_fd.c \
+						utils/ft_putnbr_fd.c \
+						utils/ft_putendl_fd.c \
+						utils/ft_isdigit.c
 
 COMM_OBJ = $(COMM_SRC:.c=.o)
 OBJ_S = $(SRC_S:.c=.o)
@@ -47,8 +58,12 @@ OBJ_CB = $(SRC_CB:.c=.o)
 
 Mandatory/%.o: Mandatory/%.c minitalk.h
 	@ $(CC) $(FLAGS) -o $@ -c $<
-
+	
+Bonus/%.o: Bonus/%.c minitalk.h
+	@ $(CC) $(FLAGS) -o $@ -c $<
+	
 all: client server
+bonus: client_bonus server_bonus
 
 server: $(OBJ_S)
 	@ $(CC) $(FLAGS) $(OBJ_S) -o $(NAME_S)
@@ -56,11 +71,19 @@ server: $(OBJ_S)
 client: $(OBJ_C)
 	@ $(CC) $(FLAGS) $(OBJ_C) -o $(NAME_C)
 
+server_bonus: $(OBJ_SB)
+	@ $(CC) $(FLAGS) $(OBJ_SB) -o $(NAME_SBONUS)
+
+client_bonus: $(OBJ_CB)
+	@ $(CC) $(FLAGS) $(OBJ_CB) -o $(NAME_CBONUS)
+
 clean:
-	@ $(RM) $(OBJ_S) $(OBJ_C) $(COMM_OBJ)
+	@ $(RM) $(OBJ_S) $(OBJ_C)
+	@ $(RM) $(OBJ_SB) $(OBJ_CB)
 
 fclean: clean
 	@ $(RM) $(NAME_S) $(NAME_C)
+	@ $(RM) $(NAME_SBONUS) $(NAME_CBONUS)
 
 re: clean all
 
